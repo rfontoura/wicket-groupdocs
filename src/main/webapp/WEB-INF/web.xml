@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ATENCAO: Ao criar um pacote publicavel para o WildFly ou outro servidor corporativo, uma versão processada deste arquivo e incluida no WAR. Os trechos 
+    comentados que contenham a string $deployment$ sao descomentados. Portanto, nao retire esses trechos. -->
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+
+    <description>Chronus</description>
+    <display-name>Chronus</display-name>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-resources/springAppContext*.xml</param-value>
+    </context-param>
+
+<!--     <filter> -->
+<!--         <filter-name>springSecurityFilterChain</filter-name> -->
+<!--         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> -->
+<!--     </filter> -->
+
+<!--     <filter> -->
+<!--         <filter-name>OpenSessionInViewFilter</filter-name> -->
+<!--         <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class> -->
+<!--     </filter> -->
+
+    <filter>
+        <filter-name>cors</filter-name>
+        <filter-class>br.com.dataeasy.visualizador.filters.CorsFilter</filter-class>
+    </filter>
+
+<!--     <filter-mapping> -->
+<!--         <filter-name>springSecurityFilterChain</filter-name> -->
+<!--         <url-pattern>/*</url-pattern> -->
+<!--     </filter-mapping> -->
+
+<!--     <filter-mapping> -->
+<!--         <filter-name>OpenSessionInViewFilter</filter-name> -->
+<!--         <servlet-name>wicket.chronus</servlet-name> -->
+<!--         <url-pattern>/ws/*</url-pattern> -->
+<!--     </filter-mapping> -->
+
+    <filter-mapping>
+        <filter-name>cors</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>br.com.dataeasy.chronus.web.listeners.DBMetadataLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!-- There are three means to configure Wickets configuration mode and they are tested in the order given. 1) A system property: -Dwicket.configuration 
+        2) servlet specific <init-param> 3) context specific <context-param> The value might be either "development" (reloading when templates change) or "deployment". 
+        If no configuration is found, "development" is the default. -->
+
+    <servlet>
+        <servlet-name>wicket.chronus</servlet-name>
+        <servlet-class>org.apache.wicket.protocol.http.WicketServlet</servlet-class>
+        <!-- ATENÇÃO: Leia o trecho comentado no inicio do arquivo -->
+        <!-- $deployment$ <init-param> <param-name>wicket.configuration</param-name> <param-value>DEPLOYMENT</param-value> </init-param> $deployment$ -->
+        <init-param>
+            <param-name>applicationFactoryClassName</param-name>
+            <param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>wicket.chronus</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- >>>> Servlets do GroupDocs - TODO: fazer funcionar @WebServlet no Jetty >>>> -->
+    <servlet>
+        <servlet-name>IndexServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.IndexServlet</servlet-class>
+    </servlet>
+
+<!--     <servlet-mapping> -->
+<!--         <servlet-name>IndexServlet</servlet-name> -->
+<!--         <url-pattern>/visualizador/teste</url-pattern> -->
+<!--     </servlet-mapping> -->
+    
+    <servlet>
+        <servlet-name>GetFilePathServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetFilePathServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>GetFilePathServlet</servlet-name>
+        <url-pattern>/GetFilePathHandler</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>GetJsServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetJsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetJsServlet</servlet-name>
+        <url-pattern>/GetJsHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetCssServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetCssServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetCssServlet</servlet-name>
+        <url-pattern>/GetCssHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetImageServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetImageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetImageServlet</servlet-name>
+        <url-pattern>/images/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetDocumentPageImageServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetDocumentPageImageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetDocumentPageImageServlet</servlet-name>
+        <url-pattern>/document-viewer/GetDocumentPageImageHandler/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetFileServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetFileServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetFileServlet</servlet-name>
+        <url-pattern>/document-viewer/GetFileHandler/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetImageUrlsServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetImageUrlsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetImageUrlsServlet</servlet-name>
+        <url-pattern>/document-viewer/GetImageUrlsHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetPrintableHtmlServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetPrintableHtmlServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetPrintableHtmlServlet</servlet-name>
+        <url-pattern>/document-viewer/GetPrintableHtmlHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ListAnnotationsServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.ListAnnotationsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ListAnnotationsServlet</servlet-name>
+        <url-pattern>/document-annotation/ListAnnotationsHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ExportAnnotationsServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.ExportAnnotationsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ExportAnnotationsServlet</servlet-name>
+        <url-pattern>/document-annotation/ExportAnnotationsHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetPdfVersionOfDocumentServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetPdfVersionOfDocumentServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetPdfVersionOfDocumentServlet</servlet-name>
+        <url-pattern>/document-annotation/GetPdfVersionOfDocumentHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CreateAnnotationServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.CreateAnnotationServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CreateAnnotationServlet</servlet-name>
+        <url-pattern>/document-annotation/CreateAnnotationHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetAvatarServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetAvatarServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetAvatarServlet</servlet-name>
+        <url-pattern>/document-annotation/GetAvatarHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddAnnotationReplyServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.AddAnnotationReplyServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddAnnotationReplyServlet</servlet-name>
+        <url-pattern>/document-annotation/AddAnnotationReplyHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditAnnotationReplyServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.EditAnnotationReplyServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EditAnnotationReplyServlet</servlet-name>
+        <url-pattern>/document-annotation/EditAnnotationReplyHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteAnnotationReplyServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.DeleteAnnotationReplyServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DeleteAnnotationReplyServlet</servlet-name>
+        <url-pattern>/document-annotation/DeleteAnnotationReplyHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteAnnotationServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.DeleteAnnotationServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DeleteAnnotationServlet</servlet-name>
+        <url-pattern>/document-annotation/DeleteAnnotationHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SaveTextFieldServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.SaveTextFieldServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SaveTextFieldServlet</servlet-name>
+        <url-pattern>/document-annotation/SaveTextFieldHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SetTextFieldColorServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.SetTextFieldColorServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SetTextFieldColorServlet</servlet-name>
+        <url-pattern>/document-annotation/SetTextFieldColorHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MoveAnnotationMarkerServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.MoveAnnotationMarkerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MoveAnnotationMarkerServlet</servlet-name>
+        <url-pattern>/document-annotation/MoveAnnotationMarkerHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoadFileBrowserTreeDataServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.LoadFileBrowserTreeDataServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LoadFileBrowserTreeDataServlet</servlet-name>
+        <url-pattern>/document-viewer/LoadFileBrowserTreeDataHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ViewDocumentServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.ViewDocumentServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ViewDocumentServlet</servlet-name>
+        <url-pattern>/document-viewer/ViewDocumentHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetFontServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetFontServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetFontServlet</servlet-name>
+        <url-pattern>/fonts/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetDocumentCollaboratorsServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetDocumentCollaboratorsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetDocumentCollaboratorsServlet</servlet-name>
+        <url-pattern>/document-annotation/GetDocumentCollaboratorsHandler/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetPrintViewServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetPrintViewServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetPrintViewServlet</servlet-name>
+        <url-pattern>/document-annotation/GetPrintViewHandler/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UploadFileServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.UploadFileServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UploadFileServlet</servlet-name>
+        <url-pattern>/document-annotation/UploadFileHandler/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ImportAnnotationsServlet</servlet-name>
+        <url-pattern>/document-annotation/ImportAnnotationsHandler/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ImportAnnotationsServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.ImportAnnotationsServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>GetPrintDocumentPageImageServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.GetPrintDocumentPageImageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetPrintDocumentPageImageServlet</servlet-name>
+        <url-pattern>/document-annotation/GetPrintDocumentPageImageHandler/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RestoreAnnotationRepliesServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.RestoreAnnotationRepliesServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RestoreAnnotationRepliesServlet</servlet-name>
+        <url-pattern>/document-annotation/RestoreAnnotationRepliesHandler/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RotatePageServlet</servlet-name>
+        <servlet-class>br.com.dataeasy.visualizador.servlets.RotatePageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RotatePageServlet</servlet-name>
+        <url-pattern>/document-viewer/RotatePageHandler/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Atmosphere Servlet -->
+    <servlet>
+        <servlet-name>AtmosphereServlet</servlet-name>
+        <servlet-class>org.atmosphere.cpr.AtmosphereServlet</servlet-class>
+        <init-param>
+            <!-- Jersey base package of your resources -->
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>br.com.dataeasy.visualizador.service</param-value>
+        </init-param>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AtmosphereServlet</servlet-name>
+        <url-pattern>/annotation</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/document-annotation/assets/*</url-pattern>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.png</url-pattern>
+        <url-pattern>*.gif</url-pattern>
+    </servlet-mapping>
+    <!-- <<<< FIM DE Servlets do GroupDocs <<<< -->
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+    <mime-mapping>
+        <extension>ico</extension>
+        <mime-type>image/x-icon</mime-type>
+    </mime-mapping>
+
+</web-app>
