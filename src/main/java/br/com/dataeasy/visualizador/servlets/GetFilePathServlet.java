@@ -1,5 +1,6 @@
 package br.com.dataeasy.visualizador.servlets;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.json.Json;
@@ -9,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import br.com.dataeasy.visualizador.config.ApplicationConfig;
 
 import com.groupdocs.annotation.exception.AnnotationException;
 import com.groupdocs.annotation.handler.AnnotationHandler;
@@ -58,8 +61,8 @@ public class GetFilePathServlet extends AnnotationServlet {
      * @return o caminho completo do arquivo
      */
     private String resolverCaminhoArquivo(String nomeArquivo) {
-        // TODO: implementar
-        return "C:\\temp\\documentos-exemplo\\" + nomeArquivo;
+        ApplicationConfig applicationConfig = visualizadorConfig.getApplicationConfig();
+        return new File(applicationConfig.getBasePath() + nomeArquivo).getAbsolutePath();
     }
 
     @Override
