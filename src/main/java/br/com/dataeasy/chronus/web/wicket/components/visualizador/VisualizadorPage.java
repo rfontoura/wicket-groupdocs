@@ -34,6 +34,8 @@ public class VisualizadorPage extends WebPage {
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        add(new VisualizadorPanel("visualizadorPanel"));
+        VisualizadorPanel visualizadorPanel = new VisualizadorPanel("visualizadorPanel");
+        visualizadorPanel.setRenderBodyOnly(true);
+        add(visualizadorPanel);
     }
 }
