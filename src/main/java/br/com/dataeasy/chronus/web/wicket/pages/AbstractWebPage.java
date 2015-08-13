@@ -190,7 +190,7 @@ public abstract class AbstractWebPage extends WebPage implements IHeaderContribu
         // jquery
         renderer.javascriptJQuery();
         // js
-        renderer.javascriptHeaderItemForUrl("resources/js/bootstrap.min.js");
+//        renderer.javascriptHeaderItemForUrl("resources/js/bootstrap.min.js");
         super.renderHead(response);
         if (CollectionUtils.isNotEmpty(callOnceOnDomReady)) {
             for (final AbstractAjaxBehavior behavior : callOnceOnDomReady) {

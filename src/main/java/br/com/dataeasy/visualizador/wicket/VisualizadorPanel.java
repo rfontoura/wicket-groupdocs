@@ -38,7 +38,6 @@ public class VisualizadorPanel extends Panel {
         super.renderHead(headerResponse);
 
         HeadRenderer renderer = new HeadRenderer(headerResponse);
-//         renderer.javascriptHeaderItemForUrl(getCaminhoJs("jquery-1.9.1.min.js"));
         renderer.javascriptHeaderItemForUrl(getCaminhoJs("jquery-ui-1.10.3.min.js"));
         renderer.javascriptHeaderItemForUrl(getCaminhoJs("knockout-3.0.0.min.js"));
         renderer.javascriptHeaderItemForUrl(getCaminhoJs("turn.min.js"));

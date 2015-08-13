@@ -1,10 +1,8 @@
 package br.com.dataeasy.chronus.web.wicket.components.visualizador;
 
-import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import br.com.dataeasy.chronus.web.wicket.pages.HeadRenderer;
+import br.com.dataeasy.chronus.web.wicket.pages.AbstractWebPage;
 import br.com.dataeasy.visualizador.config.VisualizadorConfig;
 import br.com.dataeasy.visualizador.wicket.VisualizadorPanel;
 
@@ -18,22 +16,15 @@ import br.com.dataeasy.visualizador.wicket.VisualizadorPanel;
  * @author rafael.fontoura
  * @version Revision: $ Date: 15/06/2015
  */
-public class VisualizadorPage extends WebPage {
+public class VisualizadorPage extends AbstractWebPage {
 
     private static final long  serialVersionUID = 1L;
-
-    @Override
-    public void renderHead(final IHeaderResponse response) {
-        HeadRenderer renderer = new HeadRenderer(response);
-        renderer.javascriptJQuery();
-    }
 
     @SpringBean
     private VisualizadorConfig config;
 
     @Override
-    protected void onInitialize() {
-        super.onInitialize();
+    protected void addComponentesPagina() {
         VisualizadorPanel visualizadorPanel = new VisualizadorPanel("visualizadorPanel");
         visualizadorPanel.setRenderBodyOnly(true);
         add(visualizadorPanel);

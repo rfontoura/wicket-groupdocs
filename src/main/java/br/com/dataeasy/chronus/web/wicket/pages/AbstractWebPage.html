@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="pt" xmlns:wicket="http://wicket.apache.org/">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Título da página</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"> 
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+			<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+			<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+			<!--[if lt IE 9]>
+		      <script src="resources/js/html5shiv.min.js"></script>
+		      <script src="resources/js/respond.min.js"></script>
+		    <![endif]-->
+		<wicket:header-items />
+	</head>
+
+  <body class="skin-blue sidebar-collapse static-top">
+    <!--[if lt IE 9]>
+            <div class="callout callout-danger lead"><p>Você está utilizando uma versão <strong>desatualizada</strong> do navegador. Por favor <a href="http://browsehappy.com/">atualize seu navegador</a> para utilizar este sistema.</p></div>
+    <![endif]-->
+    <!-- Site wrapper -->
+	<div class="wrapper">
+		<header class="main-header">
+	        <!-- Logo -->
+	        <div class="logo">
+	          <!-- mini logo for sidebar mini 50x50 pixels -->
+	          <span class="logo-mini">
+	               <a class="navbar-brand" href="home" title="Página principal" role="button">
+	                   <i class="fa fa-home"  />
+                   </a>
+	          </span>
+	          <!-- logo for regular state and mobile devices -->
+	          <span class="logo-lg">
+	                <a class="navbar-brand" href="home" title="Página principal" role="button">
+    	               <span>Chronus</span>
+                   </a>
+	          </span>
+	        </div>
+
+		</header>
+		<!-- fim cabeçalho-->
+
+        <!-- =============================================== -->
+      
+        <!-- Left side column. contains the sidebar -->
+        <aside class="main-sidebar">
+		  <!-- Inner sidebar -->
+		  <div class="sidebar">
+		    <!-- Sidebar Menu -->
+		    <ul class="sidebar-menu" >
+		      <li class="header">Menu de Ações</li>
+		      <!-- Adicionar os menus customizados abaixo desta linha -->
+		      <!-- Atenção com o sidebar-util.js que verifica a quantidade de .li no menu abaixo. Qualquer alteração irá mudar a lógica do negócio. -->
+		      <li >
+		      </li>
+		    </ul><!-- /.sidebar-menu -->
+		  </div><!-- /.sidebar -->
+		</aside>
+		
+        <!-- =============================================== -->
+
+        <!-- Content Wrapper. Contém o conteúdo da página -->
+		<div class="content-wrapper">
+		    <!-- Content Header (Page header) -->
+			<section class="content-header">
+					<h1 >Título da página</h1>
+			</section>
+			
+			<!-- Main content -->
+			<section class="content">
+				<div ></div>
+                <!-- NECESSÁRIO PARA AS NOTIFICAÇÕES, NÃO APAGAR -->
+                <div class="notifications top-left"></div>
+				<wicket:child>
+		            Aqui vai o conteúdo da página.
+		        </wicket:child>
+			</section><!-- /.content -->
+		</div><!-- /.content-wrapper -->
+		
+                <div ></div>
+		<footer class="main-footer">
+			<div class="container"> 
+				
+			</div><!-- /.container -->
+		</footer>
+	</div><!-- ./wrapper -->
+</body>
+
+</html>
