@@ -24,7 +24,18 @@ GroupDocs example app using Wicket Framework
 * Open you browser at URL http://localhost:8080/chronus/visualizador/teste
   * The mapping to `/visualizador/teste` path is configured on class `br.com.dataeasy.chronus.web.wicket.bookmarkable.TestBookmarkablePages`
 
-#### Error image
-Here's the image showing the viewer with error. The toolbar is shown, but the image is not rendered.
+## Problems
 
-![alt tag](img/error.png)
+### How to see the conflicts of `bootstrap.min.js` and `GroupdocsAnnotation.all.min.js`
+
+* Open file `AbstractWebPage.java`
+* Uncomment line 193 to enable including `resources/js/bootstrap.min.js` on the page and save
+* Reopen the page http://localhost:8080/chronus/visualizador/teste
+* Click on any menu ("Cadastro", "Documentos" or "Administração") and see that the submenus aren't shown
+
+### Problem open documents on Internet Explorer 11
+
+* Define the license file path on line 10 of `group-docs.properties` to a license that works
+* Stop and start JettyTeste
+* Use Internet Explorer 11 to open the page http://localhost:8080/chronus/visualizador/teste
+* This problem doesn't occur on Firefox and Chrome.
