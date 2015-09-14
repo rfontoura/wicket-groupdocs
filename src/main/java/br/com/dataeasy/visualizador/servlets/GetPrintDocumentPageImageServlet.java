@@ -30,7 +30,8 @@ public class GetPrintDocumentPageImageServlet extends AnnotationServlet {
             addCORSHeaders(request, response);
             int pageIndex = Integer.valueOf(request.getParameter("pageIndex"));
             String path = request.getParameter("path");
-            Object o = annotationHandler.getPrintDocumentPageImageHandler(path, pageIndex, response);
+            Boolean printAnnotations = Boolean.valueOf(request.getParameter("printAnnotations"));
+            Object o = annotationHandler.getPrintDocumentPageImageHandler(path, pageIndex, printAnnotations, response);
             if (o instanceof InputStream) {
                 writeOutput((InputStream) o, response);
             }

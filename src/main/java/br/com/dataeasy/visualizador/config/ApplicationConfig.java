@@ -499,6 +499,15 @@ public class ApplicationConfig extends ServiceConfiguration {
     @Value("${groupdocs.annotation.defaultFileName}")
     private String    defaultFileName;
 
+    @Value("${groupdocs.annotation.encoding}")
+    private String encoding;
+
+    @Value("${groupdocs.annotation.fontsPath}")
+    private String fontsPath;
+
+    @Value("${groupdocs.annotation.pdfPrintMarginsEnabled}")
+    private Boolean pdfPrintMarginsEnabled;
+
     /**
      * {@inheritDoc}
      */
@@ -2286,5 +2295,29 @@ public class ApplicationConfig extends ServiceConfiguration {
      */
     public void setDefaultFileName(String defaultFileName) {
         this.defaultFileName = defaultFileName;
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    public String getFontsPath() {
+        return fontsPath;
+    }
+
+    public void setFontsPath(String fontsPath) {
+        this.fontsPath = fontsPath;
+    }
+
+    public Boolean isPdfPrintMarginsEnabled() {
+        return pdfPrintMarginsEnabled;
+    }
+
+    public void setPdfPrintMarginsEnabled(Boolean pdfPrintMarginsEnabled) {
+        this.pdfPrintMarginsEnabled = pdfPrintMarginsEnabled;
     }
 }

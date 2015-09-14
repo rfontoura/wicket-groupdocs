@@ -1,5 +1,5 @@
 $(function() {
-    var name = 'pdf.pdf'; // TODO: substituir por nome de arquivo vindo de outro lugar
+    var name = '11625.tiff'; // TODO: substituir por nome de arquivo vindo de outro lugar
     $.get(getContextPath() + '/GetFilePathHandler', {
         nomeArquivo : name
     }, function(infoString) {
