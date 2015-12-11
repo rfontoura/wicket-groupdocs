@@ -1,14 +1,25 @@
 $(function() {
-    var name = '11625.tiff'; // TODO: substituir por nome de arquivo vindo de outro lugar
-    $.get(getContextPath() + '/GetFilePathHandler', {
-        nomeArquivo : name
-    }, function(infoString) {
-        var info = JSON.parse(infoString);
+//    var name = '11625.tiff';
+//    $.get(getContextPath() + '/GetFilePathHandler', {
+//        nomeArquivo : name
+//    }, function(infoString) {
+//        var info = JSON.parse(infoString);
+//        visualizarDocumentoAnotacaoComId(info);
+//    }).fail(function(e) {
+//        alert('Erro: ' + e);
+//    });
+    
+    var info = window.infoVisualizador;
+    if (info.errorMessage) {
+        exibirMessagemErro(info.errorMessage);
+    } else {
         visualizarDocumentoAnotacaoComId(info);
-    }).fail(function(e) {
-        alert('Erro: ' + e);
-    });
+    }
 })
+
+function exibirMessagemErro(msg) {
+    alert(msg);
+}
 
 /**
  * Importação dinâmica de JS ou CSS como em http://www.javascriptkit.com/javatutors/loadjavascriptcss.shtml.
@@ -54,12 +65,12 @@ function getContextPath() {
 }
 
 function configurarApplicationPath() {
-    // TODO: configurar e pegar contexto e porta por JS
+    var urlBase = window.location.protocol + "//" + window.location.host + getContextPath() + '/';
 
-    $.ui.groupdocsViewer.prototype.applicationPath = 'http://localhost:8080/chronus/';
+    $.ui.groupdocsViewer.prototype.applicationPath = urlBase;
     $.ui.groupdocsViewer.prototype.useHttpHandlers = true;
 
-    window.baseUrl = 'http://localhost:8080/chronus/';
+    window.baseUrl = urlBase;
     window.isCaseSensitive = false;
     window.searchForSeparateWords = true;
 }
@@ -83,7 +94,7 @@ function visualizarDocumentoAnotacaoComId(info) {
         thumbsImageBase64Encoded : undefined,
         width : 0,
         height : 0,
-        fileId : info.idArquivo,
+        fileId : info.fileId,
         docViewerId : 'annotation-widget-doc-viewer',
         quality : 100,
         enableRightClickMenu : false,
@@ -162,8 +173,8 @@ function visualizarDocumentoAnotacaoComId(info) {
         _mode : 'annotatedDocument',
         selectionContainerSelector : "[name='selection-content']",
         graphicsContainerSelector : '.annotationsContainer',
-        userName : info.nomeUsuario,
-        userId : info.idUsuario
+        userName : info.userName,
+        userId : info.userGuid
     }).error(function(erro) {
         // TODO: tratar amigavelmente
         alert("erro annotation: " + erro);

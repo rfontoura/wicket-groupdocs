@@ -75,10 +75,10 @@
     </servlet-mapping>
 
     <!-- >>>> Servlets do GroupDocs - TODO: fazer funcionar @WebServlet no Jetty >>>> -->
-    <servlet>
-        <servlet-name>IndexServlet</servlet-name>
-        <servlet-class>br.com.dataeasy.visualizador.servlets.IndexServlet</servlet-class>
-    </servlet>
+<!--     <servlet> -->
+<!--         <servlet-name>IndexServlet</servlet-name> -->
+<!--         <servlet-class>br.com.dataeasy.visualizador.servlets.IndexServlet</servlet-class> -->
+<!--     </servlet> -->
 
 <!--     <servlet-mapping> -->
 <!--         <servlet-name>IndexServlet</servlet-name> -->

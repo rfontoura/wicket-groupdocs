@@ -25,7 +25,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
  */
 public class JettyTeste {
 
-    private static final String CAMINHO_CONTEXTO = "/chronus";
+    private static final String CAMINHO_CONTEXTO = "/wicket-groupdocs";
 
     /**
      * Função principal. Inicia o jetty server.

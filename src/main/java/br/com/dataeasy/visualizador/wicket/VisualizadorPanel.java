@@ -1,25 +1,29 @@
 package br.com.dataeasy.visualizador.wicket;
 
+import java.io.File;
+
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.head.StringHeaderItem;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import br.com.dataeasy.chronus.web.wicket.pages.HeadRenderer;
+import br.com.dataeasy.visualizador.config.VisualizadorConfig;
+import br.com.dataeasy.visualizador.model.GroupDocsInfo;
 
-/**
- * <b>Description:</b> <br>
- * <b>Project:</b> chronus-web <br>
- * <b>Company:</b> DataEasy Consultoria e Informática LTDA. <br>
- *
- * Copyright (c) 2015 DataEasy - Todos os direitos reservados.
- *
- * @author rafael.fontoura
- * @version Revision: $ Date: 10/07/2015
- */
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.groupdocs.annotation.handler.AnnotationHandler;
+
 @SuppressWarnings("serial")
 public class VisualizadorPanel extends Panel {
+
+    @SpringBean
+    private VisualizadorConfig visualizadorConfig;
 
     private String getCaminhoCss(String nomeArquivo) {
         return "resources/css/groupdocs/" + nomeArquivo;
@@ -30,7 +34,7 @@ public class VisualizadorPanel extends Panel {
     }
 
     public VisualizadorPanel(String id) {
-        super(id, new Model<>(null)); // TODO: verificar necessidade de passar valor
+        super(id, new Model<>(null));
     }
 
     @Override
@@ -42,6 +46,7 @@ public class VisualizadorPanel extends Panel {
         renderer.javascriptHeaderItemForUrl(getCaminhoJs("knockout-3.0.0.min.js"));
         renderer.javascriptHeaderItemForUrl(getCaminhoJs("turn.min.js"));
         renderer.javascriptHeaderItemForUrl(getCaminhoJs("modernizr.2.6.2.Transform2d.min.js"));
+        headerResponse.render(JavaScriptHeaderItem.forScript(getScriptInicialObjetoVisualizador(), "parte0"));
         renderer.javascriptHeaderItemForUrl(getCaminhoJs("visualizador-groupdocs.js"));
         headerResponse.render(JavaScriptHeaderItem.forScript("configurarModernizrCssTransformers();", "parte1"));
         renderer.javascriptHeaderItemForUrl(getCaminhoJs("installableViewer.min.js"));
@@ -62,5 +67,28 @@ public class VisualizadorPanel extends Panel {
         headerResponse.render(StringHeaderItem
                 .forString("<!--[if IE 9]><style type=\"text/css\"> pan.input_search_clear { left: 140px; } </style> <![endif]-->"));
         headerResponse.render(JavaScriptHeaderItem.forScript("configurarContainer();", "parte3"));
+    }
+
+    /**
+     * Cria Javascript adicionando à página informações sobre imagem a ser renderizada e usuário.
+     */
+    private String getScriptInicialObjetoVisualizador() {
+        String caminhoDir = WebApplication.get().getServletContext().getRealPath("/resources/docs");
+        File[] files = new File(caminhoDir).listFiles();
+        String caminhoArquivo = files[RandomUtils.nextInt(0, files.length)].getAbsolutePath();
+
+        GroupDocsInfo info;
+
+        try {
+            String userName = AnnotationHandler.ANONYMOUS_USERNAME;
+            String userId = visualizadorConfig.getUserId(userName);
+            String fileId = visualizadorConfig.getFileId(caminhoArquivo);
+            info = new GroupDocsInfo(fileId, userName, userId);
+        } catch (Exception e) {
+            info = new GroupDocsInfo();
+        }
+
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        return "window.infoVisualizador = " + gson.toJson(info) + ";";
     }
 }

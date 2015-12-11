@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import br.com.dataeasy.chronus.constantes.Constantes;
@@ -31,6 +32,7 @@ import com.groupdocs.viewer.domain.path.GroupDocsPath;
  * @version Revision: $ Date: 16/06/2015
  */
 @Component
+@Lazy
 public class VisualizadorConfig {
 
     @Resource
@@ -50,6 +52,9 @@ public class VisualizadorConfig {
         try {
             this.annotationHandler = criarAnnotationHandler();
             applicationConfig.setWidgetId("container-visualizador");
+            // deve ser http://localhost:8080/wicket-groupdocs (dinamicamente)
+            // applicationConfig.setApplicationPath(WebApplication.get().getServletContext().gets);
+            // applicationConfig.setBasePath(WebApplication.get().getServletContext().getContextPath());
 
         } catch (Exception e) {
             throw new VisualizadorInfraException("Problema ao inicializar infra do Visualizador.", e);
@@ -100,7 +105,6 @@ public class VisualizadorConfig {
     public String getAnnotationScripts(String caminhoArquivo) {
         String userName = AnnotationHandler.ANONYMOUS_USERNAME;
         File arquivo;
-        // File arquivoDoSistema = new File(applicationConfig.getBasePath() + nomeArquivo);
         if (caminhoArquivo == null) {
             arquivo = new File(applicationConfig.getBasePath() + applicationConfig.getDefaultFileName());
         } else {
@@ -114,6 +118,18 @@ public class VisualizadorConfig {
             return annotationHandler.getAnnotationScript(initialPath, userName, userGuid);
         } catch (AnnotationException e) {
             throw new VisualizadorInfraException(e);
+        }
+    }
+
+    public String getFileId(String caminhoCompleto) {
+        return new EncodedPath(caminhoCompleto, annotationHandler.getConfiguration()).getPath();
+    }
+
+    public String getUserId(String nomeUsuario) {
+        try {
+            return annotationHandler.getUserGuid(nomeUsuario);
+        } catch (AnnotationException e) {
+            throw new RuntimeException(e);
         }
     }
 }
